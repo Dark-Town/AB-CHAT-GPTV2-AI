@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AB AI CHAT BOT</title>
+
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -24,6 +25,9 @@
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
       padding: 20px;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
     }
     .header {
       text-align: center;
@@ -31,7 +35,7 @@
       margin-bottom: 20px;
     }
     .chat-area {
-      height: 300px;
+      flex: 1;
       background-color: #2a2a2a;
       border-radius: 5px;
       padding: 15px;
@@ -80,15 +84,63 @@
       background-color: #555;
       align-self: flex-end;
     }
-    @media (max-width: 767px) {
+  
+    @media (min-width: 1200px) {
       .chatbox {
-        width: 90%;
+        width: 70%;
+        height: 80vh;
       }
       .chat-area {
-        height: 200px;
+        height: 70%;
+      }
+    }
+    @media (max-width: 1199px) and (min-width: 992px) {
+      .chatbox {
+        width: 80%;
+        height: 75vh;
+      }
+      .chat-area {
+        height: 70%;
+      }
+    }
+    @media (max-width: 991px) and (min-width: 768px) {
+      .chatbox {
+        width: 85%;
+        height: 70vh;
+      }
+      .chat-area {
+        height: 65%;
+      }
+    }
+    @media (max-width: 767px) and (min-width: 720px) {
+      .chatbox {
+        width: 90%;
+        height: 85vh;
+      }
+      .chat-area {
+        height: 70%;
+      }
+    }
+    @media (max-width: 719px) {
+      .chatbox {
+        width: 95%;
+        height: 90vh;
+      }
+      .chat-area {
+        height: 75%;
+      }
+    }
+    @media (max-width: 575px) {
+      .chatbox {
+        width: 95%;
+        height: 95vh;
+      }
+      .chat-area {
+        height: 80%;
       }
     }
   </style>
+  
 </head>
 <body>
   <div class="container chat-container">
@@ -114,7 +166,7 @@
       const userMessage = document.getElementById('userMessage').value;
       if (userMessage.trim() !== '') {
         const chatArea = document.getElementById('chatArea');
-        
+
         const noChatsMessage = document.getElementById('noChats');
         if (noChatsMessage) {
           noChatsMessage.remove();
@@ -146,6 +198,7 @@
         aiContainer.appendChild(loadingMessage);
         chatArea.appendChild(aiContainer);
 
+        
         chatArea.scrollTop = chatArea.scrollHeight;
 
 
@@ -155,20 +208,20 @@
         
           const aiResponse = response.replace(/I am Gemini/g, "I am AB Gemini AI");
 
-       
+         
           loadingMessage.textContent = "AI: " + aiResponse;
         } catch (error) {
           console.error(error);
           loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
         }
 
-
+  
         chatArea.scrollTop = chatArea.scrollHeight;
       }
     }
 
     async function generateAnswer(question) {
-      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  //please  dont copy 
+      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  // please dont copy
 
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
