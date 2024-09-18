@@ -58,6 +58,7 @@
       border: none;
       color: white;
     }
+
     .message-container {
       display: flex;
       align-items: flex-start;
@@ -76,14 +77,24 @@
       max-width: 80%;
       word-wrap: break-word;
     }
+    .user-message {
+      background-color: #555;
+    }
+
+    .ai-message-container {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      flex-direction: row-reverse;
+    }
+    .ai-avatar {
+      margin-left: 10px;
+      margin-right: 0;
+    }
     .ai-message {
       background-color: #007bff;
     }
-    .user-message {
-      background-color: #555;
-      align-self: flex-end;
-    }
-  
+
     @media (min-width: 1200px) {
       .chatbox {
         width: 70%;
@@ -146,7 +157,7 @@
     <div class="chatbox">
       <div class="header">AB GEMINI AI</div>
       <div class="chat-area" id="chatArea">
-        <p id="noChats">No chats yet,you can use desktop mode for better experience:) also scroll down and chat with my ai.</p>
+        <p id="noChats">No chats yet,you can use desktop mode for better experience:)  also scroll down and chat with my ai.</p>
       </div>
       <div class="input-area">
         <input type="text" id="userMessage" placeholder="Send a message...">
@@ -155,7 +166,6 @@
     </div>
   </div>
 
- 
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -167,17 +177,15 @@
       if (userMessage.trim() !== '') {
         const chatArea = document.getElementById('chatArea');
         
-       
         const noChatsMessage = document.getElementById('noChats');
         if (noChatsMessage) {
           noChatsMessage.remove();
         }
 
-    
         const userContainer = document.createElement('div');
         userContainer.classList.add('message-container');
         const userAvatar = document.createElement('img');
-        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1'; // Replace with your user avatar image path
+        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1';
         userAvatar.classList.add('avatar');
         const newUserMessage = document.createElement('div');
         newUserMessage.classList.add('message', 'user-message');
@@ -186,15 +194,13 @@
         userContainer.appendChild(newUserMessage);
         chatArea.appendChild(userContainer);
 
-     
         document.getElementById('userMessage').value = '';
 
-
         const aiContainer = document.createElement('div');
-        aiContainer.classList.add('message-container');
+        aiContainer.classList.add('ai-message-container');
         const aiAvatar = document.createElement('img');
-        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg'; // Replace with your AI avatar image path
-        aiAvatar.classList.add('avatar');
+        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
+        aiAvatar.classList.add('avatar', 'ai-avatar');
         const loadingMessage = document.createElement('div');
         loadingMessage.classList.add('message', 'ai-message');
         loadingMessage.textContent = "AI: Loading your answer...";
@@ -202,13 +208,10 @@
         aiContainer.appendChild(loadingMessage);
         chatArea.appendChild(aiContainer);
 
-   
         chatArea.scrollTop = chatArea.scrollHeight;
 
-     
         try {
           const response = await generateAnswer(userMessage);
-
 
           const aiResponse = response.replace(/I am Gemini/g, "I am AB Gemini AI");
 
@@ -223,7 +226,7 @@
     }
 
     async function generateAnswer(question) {
-      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  // please dont copy
+      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  //please dont copy
 
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
