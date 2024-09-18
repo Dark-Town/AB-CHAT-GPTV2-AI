@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AB AI CHAT BOT</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #1f1f1f;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    .chat-container {
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    .chatbox {
+      background-color: #333;
+      width: 100%;
+      max-width: 600px;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .chat-area {
+      height: 300px;
+      background-color: #2a2a2a;
+      border-radius: 5px;
+      padding: 15px;
+      overflow-y: auto;
+    }
+    .input-area {
+      display: flex;
+      margin-top: 20px;
+    }
+    .input-area input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .input-area button {
+      margin-left: 10px;
+      padding: 10px 15px;
+      border-radius: 5px;
+      background-color: #007bff;
+      border: none;
+      color: white;
+    }
+    .message-container {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    .message {
+      background-color: #444;
+      padding: 10px;
+      border-radius: 5px;
+      max-width: 80%;
+      word-wrap: break-word;
+    }
+    .ai-message {
+      background-color: #007bff;
+    }
+    .user-message {
+      background-color: #555;
+      align-self: flex-end;
+    }
+    @media (max-width: 767px) {
+      .chatbox {
+        width: 90%;
+      }
+      .chat-area {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container chat-container">
+    <div class="chatbox">
+      <div class="header">AB GEMINI AI</div>
+      <div class="chat-area" id="chatArea">
+        <p id="noChats">No chats yet.</p>
+      </div>
+      <div class="input-area">
+        <input type="text" id="userMessage" placeholder="Send a message...">
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    async function sendMessage() {
+      const userMessage = document.getElementById('userMessage').value;
+      if (userMessage.trim() !== '') {
+        const chatArea = document.getElementById('chatArea');
+        
+        const noChatsMessage = document.getElementById('noChats');
+        if (noChatsMessage) {
+          noChatsMessage.remove();
+        }
+
+        const userContainer = document.createElement('div');
+        userContainer.classList.add('message-container');
+        const userAvatar = document.createElement('img');
+        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1'; // Replace with your user avatar image path
+        userAvatar.classList.add('avatar');
+        const newUserMessage = document.createElement('div');
+        newUserMessage.classList.add('message', 'user-message');
+        newUserMessage.textContent = userMessage;
+        userContainer.appendChild(userAvatar);
+        userContainer.appendChild(newUserMessage);
+        chatArea.appendChild(userContainer);
+
+        document.getElementById('userMessage').value = '';
+
+        const aiContainer = document.createElement('div');
+        aiContainer.classList.add('message-container');
+        const aiAvatar = document.createElement('img');
+        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg'; // Replace with your AI avatar image path
+        aiAvatar.classList.add('avatar');
+        const loadingMessage = document.createElement('div');
+        loadingMessage.classList.add('message', 'ai-message');
+        loadingMessage.textContent = "AI: Loading your answer...";
+        aiContainer.appendChild(aiAvatar);
+        aiContainer.appendChild(loadingMessage);
+        chatArea.appendChild(aiContainer);
+
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+
+        try {
+          const response = await generateAnswer(userMessage);
+
+        
+          const aiResponse = response.replace(/I am Gemini/g, "I am AB Gemini AI");
+
+       
+          loadingMessage.textContent = "AI: " + aiResponse;
+        } catch (error) {
+          console.error(error);
+          loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
+        }
+
+
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+    }
+
+    async function generateAnswer(question) {
+      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  //please  dont copy 
+
+      const response = await axios({
+        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+        method: 'post',
+        data: {
+          contents: [{ parts: [{ text: question }] }],
+        },
+      });
+
+      return response.data.candidates[0].content.parts[0].text;
+    }
+  </script>
+</body>
+</html>
