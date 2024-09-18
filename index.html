@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AB AI CHAT BOT</title>
-
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
       background-color: #1f1f1f;
       color: #fff;
       font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
     }
     .chat-container {
       display: flex;
@@ -40,13 +41,15 @@
       border-radius: 5px;
       padding: 15px;
       overflow-y: auto;
+      display: flex;
+      flex-direction: column;
     }
     .input-area {
       display: flex;
-      margin-top: 20px;
+      margin-top: 10px;
     }
     .input-area input {
-      width: 100%;
+      flex: 1;
       padding: 10px;
       border-radius: 5px;
       border: none;
@@ -84,7 +87,7 @@
       background-color: #555;
       align-self: flex-end;
     }
-  
+
     @media (min-width: 1200px) {
       .chatbox {
         width: 70%;
@@ -138,9 +141,18 @@
       .chat-area {
         height: 80%;
       }
+      .input-area {
+        flex-direction: column;
+        margin-top: 10px;
+      }
+      .input-area input {
+        margin-bottom: 10px;
+      }
+      .input-area button {
+        width: 100%;
+      }
     }
   </style>
-  
 </head>
 <body>
   <div class="container chat-container">
@@ -159,7 +171,6 @@
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script>
     async function sendMessage() {
@@ -175,7 +186,7 @@
         const userContainer = document.createElement('div');
         userContainer.classList.add('message-container');
         const userAvatar = document.createElement('img');
-        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1'; // Replace with your user avatar image path
+        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1';
         userAvatar.classList.add('avatar');
         const newUserMessage = document.createElement('div');
         newUserMessage.classList.add('message', 'user-message');
@@ -189,7 +200,7 @@
         const aiContainer = document.createElement('div');
         aiContainer.classList.add('message-container');
         const aiAvatar = document.createElement('img');
-        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg'; // Replace with your AI avatar image path
+        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
         aiAvatar.classList.add('avatar');
         const loadingMessage = document.createElement('div');
         loadingMessage.classList.add('message', 'ai-message');
@@ -198,31 +209,23 @@
         aiContainer.appendChild(loadingMessage);
         chatArea.appendChild(aiContainer);
 
-        
         chatArea.scrollTop = chatArea.scrollHeight;
-
 
         try {
           const response = await generateAnswer(userMessage);
-
-        
           const aiResponse = response.replace(/I am Gemini/g, "I am AB Gemini AI");
-
-         
           loadingMessage.textContent = "AI: " + aiResponse;
         } catch (error) {
           console.error(error);
           loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
         }
 
-  
         chatArea.scrollTop = chatArea.scrollHeight;
       }
     }
 
     async function generateAnswer(question) {
-      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  // please dont copy
-
+      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';
       const response = await axios({
         url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
         method: 'post',
