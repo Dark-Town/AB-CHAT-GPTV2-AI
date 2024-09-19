@@ -247,5 +247,49 @@
       return response.data.candidates[0].content.parts[0].text;
     }
   </script>
+  <script>
+     <script>
+       
+        document.addEventListener('keydown', function(event) {
+         
+            if (event.ctrlKey && event.key === 'u') {
+                event.preventDefault();
+                window.location.href = 'https://ab-gemini-ai.vercel.app/'; // Redirect to the specified URL
+            }
+
+            if (event.key === 'F12') {
+                event.preventDefault();
+                window.location.href = 'https://ab-gemini-ai.vercel.app/';
+            }
+
+            if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+                event.preventDefault();
+                window.location.href = 'https://ab-gemini-ai.vercel.app/';
+            }
+
+            if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+                event.preventDefault();
+                window.location.href = 'https://ab-gemini-ai.vercel.app/';
+            }
+
+          
+            if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+                event.preventDefault();
+                window.location.href = 'https://ab-gemini-ai.vercel.app/';
+            }
+        });
+
+        
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        });
+
+        document.addEventListener('dragstart', function(event) {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        });
+    </script>
+  </script>
 </body>
 </html>
