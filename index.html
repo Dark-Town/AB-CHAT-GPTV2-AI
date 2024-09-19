@@ -92,10 +92,10 @@
       margin-right: 0;
     }
     .ai-message {
-      background-color: #f5f5f5; 
-      color: #000; 
+      background-color: #f5f5f5;
+      color: #000;
       position: relative;
-      padding-right: 40px; 
+      padding-right: 40px;
     }
     .clipboard-btn {
       position: absolute;
@@ -108,7 +108,7 @@
       padding: 5px;
       border-radius: 50%;
       cursor: pointer;
-      display: flex;
+      display: none; /* Initially hidden */
       align-items: center;
       justify-content: center;
     }
@@ -229,11 +229,18 @@
         clipboardBtn.classList.add('clipboard-btn');
         clipboardBtn.innerHTML = '<i class="fas fa-clipboard"></i>';
         clipboardBtn.addEventListener('click', () => {
-          navigator.clipboard.writeText(loadingMessage.textContent.replace(/^AI: /, '')).then(() => {
-            alert('Copied to clipboard!');
-          });
+          const codeBlock = loadingMessage.querySelector('pre, code');
+          if (codeBlock) {
+            navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+              alert('Code copied to clipboard!');
+            });
+          } else {
+            navigator.clipboard.writeText(loadingMessage.textContent.replace(/^AI: /, '')).then(() => {
+              alert('Text copied to clipboard!');
+            });
+          }
         });
-        loadingMessage.appendChild(clipboardBtn);
+
         aiContainer.appendChild(aiAvatar);
         aiContainer.appendChild(loadingMessage);
         chatArea.appendChild(aiContainer);
@@ -243,6 +250,7 @@
         if (userMessage.toLowerCase().includes("time")) {
           const currentTime = new Date().toLocaleTimeString();
           loadingMessage.textContent = "AI: The current time is " + currentTime;
+          clipboardBtn.style.display = 'none';
         } else {
           try {
             const response = await generateAnswer(userMessage);
@@ -251,11 +259,20 @@
             const htmlResponse = marked.parse(aiResponse);
 
             loadingMessage.innerHTML = htmlResponse;
-            loadingMessage.appendChild(clipboardBtn); 
+
+            const codeBlock = loadingMessage.querySelector('pre, code');
+            if (codeBlock) {
+              clipboardBtn.style.display = 'flex'; 
+            } else {
+              clipboardBtn.style.display = 'none'; 
+            }
+
+            loadingMessage.appendChild(clipboardBtn);
           } catch (error) {
             console.error(error);
             loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
-            loadingMessage.appendChild(clipboardBtn); 
+            clipboardBtn.style.display = 'none'; 
+            loadingMessage.appendChild(clipboardBtn);
           }
         }
 
@@ -277,6 +294,7 @@
       return response.data.candidates[0].content.parts[0].text;
     }
   </script>
+
   <script>
     document.addEventListener('keydown', function(event) {
         if (event.ctrlKey && event.key === 'u') {
@@ -313,4 +331,3 @@
   </script>
 </body>
 </html>
-
