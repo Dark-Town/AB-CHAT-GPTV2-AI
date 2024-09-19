@@ -171,45 +171,50 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-  <script>
-    async function sendMessage() {
-      const userMessage = document.getElementById('userMessage').value;
-      if (userMessage.trim() !== '') {
-        const chatArea = document.getElementById('chatArea');
-        
-        const noChatsMessage = document.getElementById('noChats');
-        if (noChatsMessage) {
-          noChatsMessage.remove();
-        }
+ <script>
+  async function sendMessage() {
+    const userMessage = document.getElementById('userMessage').value;
+    if (userMessage.trim() !== '') {
+      const chatArea = document.getElementById('chatArea');
 
-        const userContainer = document.createElement('div');
-        userContainer.classList.add('message-container');
-        const userAvatar = document.createElement('img');
-        userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1';
-        userAvatar.classList.add('avatar');
-        const newUserMessage = document.createElement('div');
-        newUserMessage.classList.add('message', 'user-message');
-        newUserMessage.textContent = userMessage;
-        userContainer.appendChild(userAvatar);
-        userContainer.appendChild(newUserMessage);
-        chatArea.appendChild(userContainer);
+      const noChatsMessage = document.getElementById('noChats');
+      if (noChatsMessage) {
+        noChatsMessage.remove();
+      }
 
-        document.getElementById('userMessage').value = '';
+      const userContainer = document.createElement('div');
+      userContainer.classList.add('message-container');
+      const userAvatar = document.createElement('img');
+      userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1';
+      userAvatar.classList.add('avatar');
+      const newUserMessage = document.createElement('div');
+      newUserMessage.classList.add('message', 'user-message');
+      newUserMessage.textContent = userMessage;
+      userContainer.appendChild(userAvatar);
+      userContainer.appendChild(newUserMessage);
+      chatArea.appendChild(userContainer);
 
-        const aiContainer = document.createElement('div');
-        aiContainer.classList.add('ai-message-container');
-        const aiAvatar = document.createElement('img');
-        aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
-        aiAvatar.classList.add('avatar', 'ai-avatar');
-        const loadingMessage = document.createElement('div');
-        loadingMessage.classList.add('message', 'ai-message');
-        loadingMessage.textContent = "AI: Loading your answer...";
-        aiContainer.appendChild(aiAvatar);
-        aiContainer.appendChild(loadingMessage);
-        chatArea.appendChild(aiContainer);
+      document.getElementById('userMessage').value = '';
 
-        chatArea.scrollTop = chatArea.scrollHeight;
+      const aiContainer = document.createElement('div');
+      aiContainer.classList.add('ai-message-container');
+      const aiAvatar = document.createElement('img');
+      aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
+      aiAvatar.classList.add('avatar', 'ai-avatar');
+      const loadingMessage = document.createElement('div');
+      loadingMessage.classList.add('message', 'ai-message');
+      loadingMessage.textContent = "AI: Loading your answer...";
+      aiContainer.appendChild(aiAvatar);
+      aiContainer.appendChild(loadingMessage);
+      chatArea.appendChild(aiContainer);
 
+      chatArea.scrollTop = chatArea.scrollHeight;
+
+
+      if (userMessage.toLowerCase().includes("time")) {
+        const currentTime = new Date().toLocaleTimeString();
+        loadingMessage.textContent = "AI: The current time is " + currentTime;
+      } else {
         try {
           const response = await generateAnswer(userMessage);
 
@@ -220,24 +225,28 @@
           console.error(error);
           loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
         }
-
-        chatArea.scrollTop = chatArea.scrollHeight;
       }
+
+      chatArea.scrollTop = chatArea.scrollHeight;
     }
+  }
 
-    async function generateAnswer(question) {
-      const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  //please dont copy
+  async function generateAnswer(question) {
+    const apiKey = 'AIzaSyAkHGe6qWMujR2BjM468vQbY2RIbp0VXyc';  // Please do not copy
 
-      const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
-        method: 'post',
-        data: {
-          contents: [{ parts: [{ text: question }] }],
-        },
-      });
+    const response = await axios({
+      url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
+      method: 'post',
+      data: {
+        contents: [{ parts: [{ text: question }] }],
+      },
+    });
 
-      return response.data.candidates[0].content.parts[0].text;
-    }
-  </script>
+    return response.data.candidates[0].content.parts[0].text;
+  }
+</script>
+
 </body>
 </html>
+
+
