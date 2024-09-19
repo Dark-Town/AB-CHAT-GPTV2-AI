@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AB AI CHAT BOT</title>
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     body {
       background-color: #1f1f1f;
@@ -58,7 +59,6 @@
       border: none;
       color: white;
     }
-
     .message-container {
       display: flex;
       align-items: flex-start;
@@ -76,11 +76,11 @@
       border-radius: 5px;
       max-width: 80%;
       word-wrap: break-word;
+      position: relative;
     }
     .user-message {
       background-color: #555;
     }
-
     .ai-message-container {
       display: flex;
       align-items: flex-start;
@@ -94,8 +94,27 @@
     .ai-message {
       background-color: #f5f5f5; 
       color: #000; 
+      position: relative;
+      padding-right: 40px; 
     }
-
+    .clipboard-btn {
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      background: #007bff;
+      border: none;
+      color: white;
+      padding: 5px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .clipboard-btn i {
+      font-size: 16px;
+    }
     @media (min-width: 1200px) {
       .chatbox {
         width: 70%;
@@ -151,7 +170,6 @@
       }
     }
   </style>
-  
 </head>
 <body>
   <div class="container chat-container">
@@ -172,6 +190,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
   <script>
     async function sendMessage() {
@@ -206,6 +225,15 @@
         const loadingMessage = document.createElement('div');
         loadingMessage.classList.add('message', 'ai-message');
         loadingMessage.textContent = "AI: Loading your answer...";
+        const clipboardBtn = document.createElement('button');
+        clipboardBtn.classList.add('clipboard-btn');
+        clipboardBtn.innerHTML = '<i class="fas fa-clipboard"></i>';
+        clipboardBtn.addEventListener('click', () => {
+          navigator.clipboard.writeText(loadingMessage.textContent.replace(/^AI: /, '')).then(() => {
+            alert('Copied to clipboard!');
+          });
+        });
+        loadingMessage.appendChild(clipboardBtn);
         aiContainer.appendChild(aiAvatar);
         aiContainer.appendChild(loadingMessage);
         chatArea.appendChild(aiContainer);
@@ -223,9 +251,11 @@
             const htmlResponse = marked.parse(aiResponse);
 
             loadingMessage.innerHTML = htmlResponse;
+            loadingMessage.appendChild(clipboardBtn); 
           } catch (error) {
             console.error(error);
             loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
+            loadingMessage.appendChild(clipboardBtn); 
           }
         }
 
@@ -248,46 +278,39 @@
     }
   </script>
   <script>
-        document.addEventListener('keydown', function(event) {
-         
-            if (event.ctrlKey && event.key === 'u') {
-                event.preventDefault();
-                window.location.href = 'https://ab-gemini-ai.vercel.app/';
-            }
-
-            if (event.key === 'F12') {
-                event.preventDefault();
-                window.location.href = 'https://ab-gemini-ai.vercel.app/';
-            }
-
-            if (event.ctrlKey && event.shiftKey && event.key === 'I') {
-                event.preventDefault();
-                window.location.href = 'https://ab-gemini-ai.vercel.app/';
-            }
-
-            if (event.ctrlKey && event.shiftKey && event.key === 'C') {
-                event.preventDefault();
-                window.location.href = 'https://ab-gemini-ai.vercel.app/';
-            }
-
-          
-            if (event.ctrlKey && event.shiftKey && event.key === 'J') {
-                event.preventDefault();
-                window.location.href = 'https://ab-gemini-ai.vercel.app/';
-            }
-        });
-
-        
-        document.addEventListener('contextmenu', function(event) {
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'u') {
             event.preventDefault();
             window.location.href = 'https://ab-gemini-ai.vercel.app/';
-        });
-
-        document.addEventListener('dragstart', function(event) {
+        }
+        if (event.key === 'F12') {
             event.preventDefault();
             window.location.href = 'https://ab-gemini-ai.vercel.app/';
-        });
-    </script>
-  
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+    });
+
+    document.addEventListener('contextmenu', function(event) {
+        event.preventDefault();
+        window.location.href = 'https://ab-gemini-ai.vercel.app/';
+    });
+
+    document.addEventListener('dragstart', function(event) {
+        event.preventDefault();
+        window.location.href = 'https://ab-gemini-ai.vercel.app/';
+    });
+  </script>
 </body>
 </html>
+
