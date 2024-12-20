@@ -193,8 +193,33 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-  <script src="23-ab.script.js">
+  <script src="23-ab-script.js">
     
+  </script>
+  <script>
+    document.addEventListener('keydown', function(event) {
+        if (event.ctrlKey && event.key === 'u') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.key === 'F12') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'I') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'C') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+        if (event.ctrlKey && event.shiftKey && event.key === 'J') {
+            event.preventDefault();
+            window.location.href = 'https://ab-gemini-ai.vercel.app/';
+        }
+    });
+
   </script>
 </body>
 </html>
