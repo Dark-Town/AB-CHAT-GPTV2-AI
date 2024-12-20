@@ -11,7 +11,7 @@ async function sendMessage() {
     const userContainer = document.createElement('div');
     userContainer.classList.add('message-container');
     const userAvatar = document.createElement('img');
-    userAvatar.src = 'https://th.bing.com/th/id/R.8c32be19dac223523d8457a75eae3362?rik=fcpHYaPKAcFLLA&pid=ImgRaw&r=0&sres=1&sresct=1';
+    userAvatar.src = 'https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg';
     userAvatar.classList.add('avatar');
     const newUserMessage = document.createElement('div');
     newUserMessage.classList.add('message', 'user-message');
