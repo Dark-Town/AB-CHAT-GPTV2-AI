@@ -21,7 +21,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    body {
+   body {
       background-color: #1f1f1f;
       color: #fff;
       font-family: Arial, sans-serif;
@@ -156,23 +156,31 @@
         height: 65%;
       }
     }
- @media (max-width: 767px) and (min-width: 720px) {
-  .chatbox {
-    width: 95%;
-    height: 85vh;
-    max-width: 700px;
-  }
-  .chat-area {
-    height: 70%;
-  }
-}
-    @media (max-width: 719px) {
+    @media (max-width: 767px) {
       .chatbox {
         width: 95%;
-        height: 90vh;
+        height: 85vh;
+        max-width: 700px;
       }
       .chat-area {
-        height: 75%;
+        height: 70%;
+      }
+      .header {
+        font-size: 20px;
+      }
+      .input-area input {
+        padding: 8px;
+      }
+      .input-area button {
+        padding: 8px 12px;
+      }
+      .message {
+        padding: 8px;
+        font-size: 14px;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
       }
     }
     @media (max-width: 575px) {
@@ -182,6 +190,23 @@
       }
       .chat-area {
         height: 80%;
+      }
+      .header {
+        font-size: 18px;
+      }
+      .input-area input {
+        padding: 6px;
+      }
+      .input-area button {
+        padding: 6px 10px;
+      }
+      .message {
+        padding: 6px;
+        font-size: 12px;
+      }
+      .avatar {
+        width: 25px;
+        height: 25px;
       }
     }
   </style>
