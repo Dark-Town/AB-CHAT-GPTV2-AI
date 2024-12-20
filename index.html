@@ -175,12 +175,12 @@
 <body>
   <div class="container chat-container">
     <div class="chatbox">
-      <div class="header">AB CHATGPT-AIV2</div>
+      <div class="header">AB GEMINI AI</div>
       <div class="chat-area" id="chatArea">
         <p id="noChats">No chats yet, you can use desktop mode for better experience :) Also scroll down and chat with my AI.</p>
       </div>
       <div class="input-area">
-        <input type="text" id="userMessage" placeholder="Send a message...">
+        <input type="text" id="userMessage" placeholder="Send a message..." onkeydown="if(event.key === 'Enter') sendMessage()">
         <button onclick="sendMessage()">Send</button>
       </div>
     </div>
@@ -193,9 +193,8 @@
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
-  <script src="23-ab-script.js">
-    
-  </script>
+  <script src="23-ab-script.js"></script>
+
   <script>
     document.addEventListener('keydown', function(event) {
         if (event.ctrlKey && event.key === 'u') {
