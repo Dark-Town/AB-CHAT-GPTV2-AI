@@ -11,7 +11,7 @@ async function sendMessage() {
     const userContainer = document.createElement('div');
     userContainer.classList.add('message-container');
     const userAvatar = document.createElement('img');
-    userAvatar.src = 'https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg';
+    userAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
     userAvatar.classList.add('avatar');
     const newUserMessage = document.createElement('div');
     newUserMessage.classList.add('message', 'user-message');
@@ -25,7 +25,7 @@ async function sendMessage() {
     const aiContainer = document.createElement('div');
     aiContainer.classList.add('ai-message-container');
     const aiAvatar = document.createElement('img');
-    aiAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
+    aiAvatar.src = 'https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg';
     aiAvatar.classList.add('avatar', 'ai-avatar');
     const loadingMessage = document.createElement('div');
     loadingMessage.classList.add('message', 'ai-message');
