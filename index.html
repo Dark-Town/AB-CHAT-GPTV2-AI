@@ -255,7 +255,7 @@
         } else {
           try {
             const response = await generateAnswer(userMessage);
-            const aiResponse = response.replace(/I am Gemini/g, "I am AB Gemini AI");
+            const aiResponse = response.result;
 
             const htmlResponse = marked.parse(aiResponse);
 
@@ -282,17 +282,12 @@
     }
 
     async function generateAnswer(question) {
-      const apiKey = 'AIzaSyD6wkxK5D9MZW7EgxGSEGuWnGJbJGgF93s';  // Please do not copy
+      const proxyUrl = "https://broken-star-6439.abrahamdw882.workers.dev/?u=";
+      const apiUrl = `https://api.giftedtech.my.id/api/ai/geminiai?apikey=gifted&q=${encodeURIComponent(question)}`;
 
-      const response = await axios({
-        url: `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`,
-        method: 'post',
-        data: {
-          contents: [{ parts: [{ text: question }] }],
-        },
-      });
+      const response = await axios.get(`${proxyUrl}${encodeURIComponent(apiUrl)}`);
 
-      return response.data.candidates[0].content.parts[0].text;
+      return response.data;
     }
   </script>
 
