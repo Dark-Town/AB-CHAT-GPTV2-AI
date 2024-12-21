@@ -11,7 +11,7 @@ async function sendMessage() {
     const userContainer = document.createElement('div');
     userContainer.classList.add('message-container');
     const userAvatar = document.createElement('img');
-    userAvatar.src = 'https://github.com/abrahamdw882/ABBOTWEB.github.io/raw/main/Guru.jpg';
+    userAvatar.src = 'https://th.bing.com/th/id/R.2cbc8fc3225622d3df650827dbb2aaa1?rik=1uznuS7Go970pA&pid=ImgRaw&r=0';
     userAvatar.classList.add('avatar');
     const newUserMessage = document.createElement('div');
     newUserMessage.classList.add('message', 'user-message');
