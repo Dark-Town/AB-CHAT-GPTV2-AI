@@ -75,7 +75,7 @@ async function sendMessage() {
         loadingMessage.appendChild(clipboardBtn);
       } catch (error) {
         console.error(error);
-        loadingMessage.textContent = "AI: Sorry - Something went wrong. Please try again!";
+        loadingMessage.textContent = "AI: BAKA ASK Sensible quetions!";
         clipboardBtn.style.display = 'none'; 
         loadingMessage.appendChild(clipboardBtn);
       }
