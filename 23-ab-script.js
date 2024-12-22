@@ -52,7 +52,10 @@ async function sendMessage() {
 
     chatArea.scrollTop = chatArea.scrollHeight;
 
-    if (userMessage.toLowerCase().includes("time")) {
+    if (userMessage.toLowerCase().includes("who are you") || userMessage.toLowerCase().includes("who created you") || userMessage.toLowerCase().includes("who made you")) {
+      loadingMessage.textContent = "AI: I am an AI made by AB TECH";
+      clipboardBtn.style.display = 'none';
+    } else if (userMessage.toLowerCase().includes("time")) {
       const currentTime = new Date().toLocaleTimeString();
       loadingMessage.textContent = "AI: The current time is " + currentTime;
       clipboardBtn.style.display = 'none';
