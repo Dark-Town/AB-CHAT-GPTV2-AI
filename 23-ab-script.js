@@ -52,31 +52,33 @@ async function sendMessage() {
 
     chatArea.scrollTop = chatArea.scrollHeight;
 
-    if (userMessage.toLowerCase().includes("who are you") || userMessage.toLowerCase().includes("who created you") || userMessage.toLowerCase().includes("who made you")) {
+    const correctedMessage = correctSpelling(userMessage.toLowerCase());
+
+    if (correctedMessage.includes("who are you") || correctedMessage.includes("who created you") || correctedMessage.includes("who made you")) {
       setTimeout(() => {
         loadingMessage.textContent = "AI: I am an AI made by AB TECH";
         clipboardBtn.style.display = 'none';
       }, 2000);
-    } else if (userMessage.toLowerCase().includes("time")) {
+    } else if (correctedMessage.includes("time")) {
       setTimeout(() => {
         const currentTime = new Date().toLocaleTimeString();
         loadingMessage.textContent = "AI: The current time is " + currentTime;
         clipboardBtn.style.display = 'none';
       }, 2000); 
-    } else if (userMessage.toLowerCase().includes("date")) {
+    } else if (correctedMessage.includes("date")) {
       setTimeout(() => {
         const currentDate = new Date().toLocaleDateString();
         loadingMessage.textContent = "AI: Today's date is " + currentDate;
         clipboardBtn.style.display = 'none';
       }, 2000);
-    } else if (userMessage.toLowerCase().includes("yesterday")) {
+    } else if (correctedMessage.includes("yesterday")) {
       setTimeout(() => {
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         loadingMessage.textContent = "AI: Yesterday's date was " + yesterday.toLocaleDateString();
         clipboardBtn.style.display = 'none';
       }, 2000);
-    } else if (userMessage.toLowerCase().includes("last week")) {
+    } else if (correctedMessage.includes("last week")) {
       setTimeout(() => {
         const lastWeek = new Date();
         lastWeek.setDate(lastWeek.getDate() - 7);
@@ -85,7 +87,7 @@ async function sendMessage() {
       }, 2000);
     } else {
       try {
-        const response = await generateAnswer(userMessage);
+        const response = await generateAnswer(correctedMessage);
         const aiResponse = response.result;
 
         const htmlResponse = marked.parse(aiResponse);
@@ -102,7 +104,7 @@ async function sendMessage() {
         loadingMessage.appendChild(clipboardBtn);
       } catch (error) {
         console.error(error);
-        loadingMessage.textContent = "AI: BAKA ASK Sensible quetions!";
+        loadingMessage.textContent = "AI: BAKA ASK Sensible questions!";
         clipboardBtn.style.display = 'none'; 
         loadingMessage.appendChild(clipboardBtn);
       }
@@ -110,6 +112,26 @@ async function sendMessage() {
 
     chatArea.scrollTop = chatArea.scrollHeight;
   }
+}
+
+function correctSpelling(message) {
+  const corrections = {
+    "yestaday": "yesterday",
+    "yeasterday": "yesterday",
+    "tim": "time",
+    "dte": "date",
+    "dat": "date",
+    "wek": "week",
+    "wek": "week"
+  };
+
+  const words = message.split(" ");
+  for (let i = 0; i < words.length; i++) {
+    if (corrections[words[i]]) {
+      words[i] = corrections[words[i]];
+    }
+  }
+  return words.join(" ");
 }
 
 async function generateAnswer(question) {
