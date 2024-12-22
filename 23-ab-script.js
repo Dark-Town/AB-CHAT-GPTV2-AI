@@ -58,9 +58,17 @@ async function sendMessage() {
         clipboardBtn.style.display = 'none';
       }, 2000);
     } else if (userMessage.toLowerCase().includes("time")) {
-      const currentTime = new Date().toLocaleTimeString();
-      loadingMessage.textContent = "AI: The current time is " + currentTime;
-      clipboardBtn.style.display = 'none';
+      setTimeout(() => {
+        const currentTime = new Date().toLocaleTimeString();
+        loadingMessage.textContent = "AI: The current time is " + currentTime;
+        clipboardBtn.style.display = 'none';
+      }, 2000); 
+    } else if (userMessage.toLowerCase().includes("date")) {
+      setTimeout(() => {
+        const currentDate = new Date().toLocaleDateString();
+        loadingMessage.textContent = "AI: Today's date is " + currentDate;
+        clipboardBtn.style.display = 'none';
+      }, 2000);
     } else {
       try {
         const response = await generateAnswer(userMessage);
