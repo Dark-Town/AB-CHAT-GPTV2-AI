@@ -69,6 +69,20 @@ async function sendMessage() {
         loadingMessage.textContent = "AI: Today's date is " + currentDate;
         clipboardBtn.style.display = 'none';
       }, 2000);
+    } else if (userMessage.toLowerCase().includes("yesterday")) {
+      setTimeout(() => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        loadingMessage.textContent = "AI: Yesterday's date was " + yesterday.toLocaleDateString();
+        clipboardBtn.style.display = 'none';
+      }, 2000);
+    } else if (userMessage.toLowerCase().includes("last week")) {
+      setTimeout(() => {
+        const lastWeek = new Date();
+        lastWeek.setDate(lastWeek.getDate() - 7);
+        loadingMessage.textContent = "AI: The date last week was " + lastWeek.toLocaleDateString();
+        clipboardBtn.style.display = 'none';
+      }, 2000);
     } else {
       try {
         const response = await generateAnswer(userMessage);
