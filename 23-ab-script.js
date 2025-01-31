@@ -86,7 +86,7 @@ async function sendMessage() {
     } else {
       try {
         const response = await generateAnswer(userMessage);
-        const aiResponse = response.result;
+        const aiResponse = response.BK9;
 
         const htmlResponse = marked.parse(aiResponse);
 
