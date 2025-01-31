@@ -35,15 +35,10 @@ async function sendMessage() {
     clipboardBtn.innerHTML = '<i class="fas fa-clipboard"></i>';
     clipboardBtn.addEventListener('click', () => {
       const codeBlock = loadingMessage.querySelector('pre, code');
-      if (codeBlock) {
-        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
-          alert('Code copied to clipboard!');
-        });
-      } else {
-        navigator.clipboard.writeText(loadingMessage.textContent.replace(/^AI: /, '')).then(() => {
-          alert('Text copied to clipboard!');
-        });
-      }
+      const textToCopy = codeBlock ? codeBlock.textContent : loadingMessage.textContent.replace(/^AI: /, '');
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        alert('Copied to clipboard!');
+      });
     });
 
     aiContainer.appendChild(aiAvatar);
@@ -88,23 +83,18 @@ async function sendMessage() {
         const response = await generateAnswer(userMessage);
         const aiResponse = response.BK9;
 
-        const htmlResponse = marked.parse(aiResponse);
-
-        loadingMessage.innerHTML = htmlResponse;
-
-        const codeBlock = loadingMessage.querySelector('pre, code');
-        if (codeBlock) {
-          clipboardBtn.style.display = 'flex'; 
+        if (aiResponse) {
+          loadingMessage.innerHTML = aiResponse;
+          const codeBlock = loadingMessage.querySelector('pre, code');
+          clipboardBtn.style.display = codeBlock ? 'flex' : 'none';
+          loadingMessage.appendChild(clipboardBtn);
         } else {
-          clipboardBtn.style.display = 'none'; 
+          throw new Error("Invalid response from AI");
         }
-
-        loadingMessage.appendChild(clipboardBtn);
       } catch (error) {
         console.error(error);
-        loadingMessage.textContent = "AI: BAKA ASK Sensible quetions!";
-        clipboardBtn.style.display = 'none'; 
-        loadingMessage.appendChild(clipboardBtn);
+        loadingMessage.textContent = "AI: Please ask sensible questions!";
+        clipboardBtn.style.display = 'none';
       }
     }
 
@@ -116,7 +106,11 @@ async function generateAnswer(question) {
   const proxyUrl = "https://broken-star-6439.abrahamdw882.workers.dev/?u=";
   const apiUrl = `https://bk9.fun/ai/llama?q=${encodeURIComponent(question)}`;
 
-  const response = await axios.get(`${proxyUrl}${encodeURIComponent(apiUrl)}`);
-
-  return response.BK9;
+  try {
+    const response = await axios.get(`${proxyUrl}${encodeURIComponent(apiUrl)}`);
+    return response.data;  
+  } catch (error) {
+    console.error("Error fetching AI response:", error);
+    return { BK9: "AI: Sorry, I couldn't fetch an answer." };
+  }
 }
