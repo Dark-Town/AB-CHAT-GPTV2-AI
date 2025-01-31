@@ -114,9 +114,9 @@ async function sendMessage() {
 
 async function generateAnswer(question) {
   const proxyUrl = "https://broken-star-6439.abrahamdw882.workers.dev/?u=";
-  const apiUrl = `https://api.giftedtech.my.id/api/ai/gpt4?apikey=gifted&q=${encodeURIComponent(question)}`;
+  const apiUrl = `https://bk9.fun/ai/llama?q=${encodeURIComponent(question)}`;
 
   const response = await axios.get(`${proxyUrl}${encodeURIComponent(apiUrl)}`);
 
-  return response.data;
+  return response.BK9;
 }
