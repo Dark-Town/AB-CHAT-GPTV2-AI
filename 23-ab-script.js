@@ -1,4 +1,4 @@
-marked.setOptions({
+   marked.setOptions({
   breaks: true,
   highlight: function (code) {
     return hljs.highlightAuto(code).value;
@@ -6,6 +6,20 @@ marked.setOptions({
 });
 
 let isGenerating = false;
+
+function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "250px";
+}
+
+function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+}
+
+function showTopic(topic) {
+    alert("Showing chats for " + topic);
+}
 
 async function sendMessage() {
   if (isGenerating) return;
@@ -91,6 +105,7 @@ document.getElementById('userInput').addEventListener('keydown', (e) => {
     sendMessage();
   }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
   addMessage("Hello! I'm AB TECH ChatGPT. How can I help you today?", 'ai');
 });
