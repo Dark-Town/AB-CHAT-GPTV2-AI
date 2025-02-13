@@ -43,7 +43,7 @@ async function sendMessage() {
   } finally {
     isGenerating = false;
     userInput.disabled = false;
-    document.querySelector('.send').innerHTML = '|>';
+    document.querySelector('.send').innerHTML = '→';
     userInput.focus();
   }
 }
