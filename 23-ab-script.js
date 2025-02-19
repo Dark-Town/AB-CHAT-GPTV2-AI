@@ -130,5 +130,5 @@ document.getElementById('userInput').addEventListener('keydown', (e) => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-  addMessage("Hello! I'm AB TECH ChatGPT. How can I help you today?", 'ai');
+  addMessage("Hello! I'm AB TECH AI. How can I help you today?", 'ai');
 });
