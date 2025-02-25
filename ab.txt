@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AB AI TECH">
+    <meta name="keywords" content="AI Assistant, Technology, Programming Help">
+    <meta property="og:image" content="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <title>AB AI Assistant</title>
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #1e293b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            padding-bottom: 100px;
+        }
+
+        .message {
+            padding: 1.25rem;
+            margin: 1rem 0;
+            max-width: 85%;
+            border-radius: 1rem;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .message.user {
+            margin-left: auto;
+            background: var(--accent-blue);
+            color: white;
+            border-radius: 1rem 0.25rem 1rem 1rem;
+        }
+
+        .message.ai {
+            background: var(--secondary-bg);
+            border-radius: 0.25rem 1rem 1rem 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary-bg);
+            padding: 1rem;
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .input-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 1.25rem 3.5rem 1.25rem 1.5rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        button.send {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 0.5rem;
+            transition: color 0.2s;
+            font-size: 1.2rem;
+        }
+
+        button.send:hover {
+            color: var(--accent-blue);
+        }
+
+        .typing-indicator {
+            display: inline-flex;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--secondary-bg);
+            border-radius: 20px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        pre {
+            background: var(--primary-bg) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 8px !important;
+            padding: 1.5rem !important;
+            margin: 1rem 0 !important;
+            position: relative;
+            overflow-x: auto;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                padding: 0.5rem;
+            }
+
+            .message {
+                max-width: 90%;
+                padding: 1rem;
+                font-size: 15px;
+            }
+
+            input[type="text"] {
+                padding: 1rem 3rem 1rem 1rem;
+                font-size: 15px;
+            }
+
+            button.send {
+                right: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chatContainer">
+        <div class="message ai">
+            <div class="message-content">
+                Hello! I'm AB AI Assistant. How can I help you today? 😊
+                <br><br>
+                <small style="color: var(--text-secondary)">I can help with programming, research, and general knowledge.</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="input-container">
+        <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="Ask me anything..." />
+            <button class="send" onclick="sendMessage()">→</button>
+        </div>
+    </div>
+
+    <script>
+        marked.setOptions({
+            breaks: true,
+            highlight: function(code) {
+                return hljs.highlightAuto(code).value;
+            }
+        });
+
+        let isGenerating = false;
+
+        async function sendMessage() {
+            if (isGenerating) return;
+
+            const userInput = document.getElementById('userInput');
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            isGenerating = true;
+            userInput.disabled = true;
+            document.querySelector('.send').style.color = '#3b82f6';
+
+            try {
+             
+                const userMessage = createMessage(message, 'user');
+                document.getElementById('chatContainer').appendChild(userMessage);
+                
+               
+                const loadingMessage = createLoadingIndicator();
+                document.getElementById('chatContainer').appendChild(loadingMessage);
+                scrollToBottom();
+
+                userInput.value = '';
+
+               
+                const response = await generateAnswer(message);
+                const content = response.choices?.[0]?.message?.content || "I'm sorry, I couldn't process your request.";
+                const parsedContent = marked.parse(content);
+
+               
+                loadingMessage.remove();
+                const aiMessage = createMessage(parsedContent, 'ai');
+                document.getElementById('chatContainer').appendChild(aiMessage);
+                addCopyButtons(aiMessage);
+                scrollToBottom();
+
+            } catch (error) {
+                console.error(error);
+                const errorMessage = createMessage("Sorry, I'm experiencing technical difficulties. Please try again.", 'ai');
+                document.getElementById('chatContainer').appendChild(errorMessage);
+                scrollToBottom();
+            } finally {
+                isGenerating = false;
+                userInput.disabled = false;
+                document.querySelector('.send').style.color = '';
+                userInput.focus();
+            }
+        }
+
+        function createMessage(content, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `
+                <div class="message-content">${content}</div>
+            `;
+            return messageDiv;
+        }
+
+        function createLoadingIndicator() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'message ai';
+            loadingDiv.innerHTML = `
+                <div class="message-content">
+                    <div class="typing-indicator">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+            return loadingDiv;
+        }
+
+        function addCopyButtons(container) {
+            container.querySelectorAll('pre').forEach(pre => {
+                const button = document.createElement('button');
+                button.className = 'copy-btn';
+                button.innerHTML = 'Copy';
+                button.onclick = () => copyToClipboard(pre);
+                pre.parentNode.insertBefore(button, pre.nextSibling);
+            });
+        }
+
+        async function generateAnswer(question) {
+            const apiUrl = "https://api.mistral.ai/v1/agents/completions";
+            const apiKey = "PB1YjvrlGDByR0ZME7ir4zNL69cw2JXS";
+
+            const headers = {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`,
+            };
+
+            const body = JSON.stringify({
+                agent_id: "ag:d5560f88:20250218:untitled-agent:b2fe32d6",
+                messages: [{ role: "user", content: question }],
+            });
+
+            const response = await fetch(apiUrl, {
+                method: "POST",
+                headers: headers,
+                body: body,
+            });
+
+            if (!response.ok) throw new Error('API request failed');
+            return await response.json();
+        }
+
+        function copyToClipboard(element) {
+            const text = element.textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = element.nextElementSibling;
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy', 2000);
+            });
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('chatContainer');
+            container.scrollTop = container.scrollHeight;
+        }
+
+        document.getElementById('userInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        scrollToBottom();
+    </script>
+</body>
+</html>
