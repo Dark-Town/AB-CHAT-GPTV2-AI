@@ -1,29 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg" />
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:locale" content="en_US" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content=" BY AB-TECH" />
-    <meta name="keywords" content="Devi,programming,Ethical,Anime Fan" />
-    <meta itemprop="image" content="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg" />
-    <meta property="og:image" content="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg" />
-    <meta property="og:image:secure_url" content="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg" />
-    <meta property="og:image:width" content="650" />
-    <meta property="og:image:height" content="350" />
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="AB AI TECH">
+    <meta name="keywords" content="AI Assistant, Technology, Programming Help">
+    <meta property="og:image" content="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-    <title>AB AI CHAT BOT</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark.min.css">
+    <title>AB AI Assistant</title>
     <style>
         :root {
-            --primary-bg: #424242;
-            --message-bg: #424242;
-            --user-bg: #3000f363;
-            --text-color: #ececf1;
-            --input-bg: #000000;
+            --primary-bg: #0f172a;
+            --secondary-bg: #1e293b;
+            --accent-blue: #3b82f6;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #1e293b;
+            --scrollbar-width: 8px;
         }
 
         * {
@@ -34,53 +33,90 @@
 
         body {
             background-color: var(--primary-bg);
-            color: var(--text-color);
-            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             height: 100vh;
-            display: flex;
-            flex-direction: column;
+            overflow: hidden; /* Prevent double scrollbars */
         }
 
         .chat-container {
-            flex: 1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 100px; 
             overflow-y: auto;
-            padding: 1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            width: 100%;
+            padding: 1rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-blue) var(--primary-bg);
         }
 
+       
+        .chat-container::-webkit-scrollbar {
+            width: var(--scrollbar-width);
+        }
+
+        .chat-container::-webkit-scrollbar-track {
+            background: var(--primary-bg);
+        }
+
+        .chat-container::-webkit-scrollbar-thumb {
+            background-color: var(--accent-blue);
+            border-radius: 4px;
+        }
+
+        .message-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            width: calc(100% - var(--scrollbar-width)); /* Account for scrollbar width */
+        }
+
+       
         .message {
-            padding: 1.5rem;
-            display: flex;
-            gap: 1.5rem;
-            background-color: var(--message-bg);
+            padding: 1.25rem;
+            margin: 1rem 0;
+            max-width: 85%;
+            border-radius: 1rem;
+            line-height: 1.6;
+            font-size: 16px;
         }
 
         .message.user {
-     background-color: #3000f300;
-     color : white;
-    text-shadow: 2px 2px 4px #e0cfff;
-    text-align: right;
-    border-radius: 22px;
-    max-width: 11%;
-    margin-left: auto;
-    padding: 10px 15px;
-    white-space: nowrap;
-     font-size: 36px;
-        }
-
-        .message-content {
-            flex: 1;
+            margin-left: auto;
+            background: var(--accent-blue);
+            color: white;
+            border-radius: 16px 4px 16px 16px;
+            padding: 8px 16px;
+            max-width: fit-content;
+            font-size: 0.875rem;
             line-height: 1.5;
-            max-width: 800px;
-            margin: 0 auto;
+            margin-bottom: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
+        .message.user .message-content {
+            text-align: right;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        .message.ai {
+            background: var(--secondary-bg);
+            border-radius: 0.25rem 1rem 1rem 1rem;
+            border: 1px solid var(--border-color);
+        }
+
+        /* Input Container */
         .input-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: var(--scrollbar-width);
+            background: var(--primary-bg);
             padding: 1rem;
-            background-color: var(--primary-bg);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
         }
 
         .input-wrapper {
@@ -91,221 +127,136 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 1rem 2.5rem 1rem 1rem;
-            background-color: var(--input-bg);
-            border: none;
-            border-radius: 0.375rem;
-            color: var(--text-color);
+            padding: 1.25rem 3.5rem 1.25rem 1.5rem;
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 1.5rem;
+            color: var(--text-primary);
             font-size: 1rem;
+            transition: all 0.2s;
         }
 
         input[type="text"]:focus {
             outline: none;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
         }
 
         button.send {
             position: absolute;
-            right: 0.5rem;
+            right: 1rem;
             top: 50%;
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: var (--text-color);
+            color: var(--text-secondary);
             cursor: pointer;
             padding: 0.5rem;
+            transition: color 0.2s;
+            font-size: 1.2rem;
         }
 
-        .logo {
-            font-weight: bold;
-            padding: 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        button.send:hover {
+            color: var(--accent-blue);
+        }
+
+       
+        .typing-indicator {
+            display: inline-flex;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--secondary-bg);
+            border-radius: 20px;
+        }
+
+        .typing-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--text-secondary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
 
         pre {
-            background: #000;
-            padding: 1rem;
-            border-radius: 0.5rem;
+            background: var(--primary-bg) !important;
+            border: 1px solid var(--border-color) !important;
+            border-radius: 8px !important;
+            padding: 1.5rem !important;
+            margin: 1rem 0 !important;
+            position: relative;
             overflow-x: auto;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-        }
-
-        code {
-            font-family: monospace;
-        }
-
-        .loading-dots span {
-            animation: dot-pulse 1.4s infinite;
-            opacity: 0;
-        }
-
-        .loading-dots span:nth-child(2) { animation-delay: 0.2s; }
-        .loading-dots span:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes dot-pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
         }
 
         .copy-btn {
             position: absolute;
             top: 0.5rem;
             right: 0.5rem;
-            background: none;
+            background: rgba(255, 255, 255, 0.1);
             border: none;
-            color: #fff;
+            color: var(--text-primary);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
             cursor: pointer;
-            padding: 0.25rem;
-            opacity: 0.6;
             transition: opacity 0.2s;
         }
 
         .copy-btn:hover {
-            opacity: 1;
+            background: rgba(255, 255, 255, 0.2);
         }
 
-        pre {
-            position: relative;
-            background: #000 !important;
-            padding: 1rem !important;
-            border-radius: 0.5rem;
-            margin: 1rem 0;
-        }
-
-        code {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9em;
-        }
-
-        .message {
-            display: flex;
-            gap: 1.5rem;
-            align-items: flex-start;
-        }
-
-        .avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-        }
-
-        .user {
-            flex-direction: row-reverse;
-        }
-
+        
         @media (max-width: 768px) {
-            .message {
-                padding: 1rem;
-                gap: 1rem;
+            .chat-container {
+                padding: 0;
             }
 
+            .message-wrapper {
+                padding: 0 0.5rem;
+            }
 
+            .input-container {
+                right: 0;
+            }
 
-           .message.user {
-     font-size: 36px;
-        }
-            
-            .message-content {
-                flex: 1;
-                line-height: 1.5;
-                max-width: 230px;
-                font-size: 13px;
-
+            .message {
+                max-width: 90%;
+                padding: 1rem;
+                font-size: 15px;
             }
 
             input[type="text"] {
-                padding: 0.75rem 2rem 0.75rem 1rem;
-                height: 110px;
+                padding: 1rem 3rem 1rem 1rem;
+                font-size: 15px;
             }
-            input::placeholder {
-                font-size: 22px; 
-                opacity: 0.7;
+
+            button.send {
+                right: 0.75rem;
             }
-            button.send{
-                font-size: 28px;
-                color:#f1f1f1
-            }
-        }
-/*working on slidebar */
-        .sidebar {
-            height: 100%;
-            width: 0;
-            position: fixed;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: #111;
-            overflow-x: hidden;
-            transition: 0.5s;
-            padding-top: 60px;
-        }
-
-        .sidebar a {
-            padding: 8px 8px 8px 32px;
-            text-decoration: none;
-            font-size: 25px;
-            color: #818181;
-            display: block;
-            transition: 0.3s;
-        }
-
-        .sidebar a:hover {
-            color: #f1f1f1;
-        }
-
-        .sidebar .closebtn {
-            position: absolute;
-            top: 0;
-            right: 25px;
-            font-size: 36px;
-            margin-left: 50px;
-        }
-
-        .openbtn {
-            font-size: 20px;
-            cursor: pointer;
-            background-color: #111;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-        }
-
-        .openbtn:hover {
-            background-color: #444;
-        }
-
-        @media screen and (max-height: 450px) {
-            .sidebar {padding-top: 15px;}
-            .sidebar a {font-size: 18px;}
-        }
-        #main {
-            transition: margin-left .5s;
-            padding: 16px;
         }
     </style>
 </head>
 <body>
-    <br>
-    <div class="logo">AB AI TECH </div>
-    
-    <div id="mySidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-        <a href="#" onclick="showTopic('Topic 1')">Topic 1</a>
-        <a href="#" onclick="showTopic('Topic 2')">Topic 2</a>
-        <a href="#" onclick="showTopic('Topic 3')">Topic 3</a>
+    <div class="chat-container" id="chatContainer">
+        <div class="message-wrapper">
+            <div class="message ai">
+                <div class="message-content">
+                    Hello! I'm AB AI Assistant. How can I help you today? 😊
+                    <br><br>
+                    <small style="color: var(--text-secondary)">I can help with programming, research, and general knowledge.</small>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="main">
-        <div class="chat-container" id="chatContainer">
-        </div>
-        <div class="input-container">
-            <div class="input-wrapper">
-                <input type="text" id="userInput" placeholder="Send a message..." />
-                <button class="send" onclick="sendMessage()">→</button>
-            </div>
+    <div class="input-container">
+        <div class="input-wrapper">
+            <input type="text" id="userInput" placeholder="Ask me anything..." />
+            <button class="send" onclick="sendMessage()">→</button>
         </div>
     </div>
 
