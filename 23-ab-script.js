@@ -1,4 +1,4 @@
-  const chatHistory = new Map();
+ const chatHistory = new Map();
         let currentConversationId = null;
         const MAX_HISTORY = 10;
 
@@ -25,14 +25,12 @@
             document.getElementById('chatContainer').querySelector('.message-wrapper').innerHTML = initialMessage;
         }
 
-        
-function toggleSidebar() {
-    let sidebar = document.getElementById('sidebar');
-    sidebar.classList.toggle('active');
-}
-
-
-
+        function toggleSidebar() {
+            let sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('active');
+            const menuToggle = document.querySelector('.menu-toggle');
+            menuToggle.classList.remove('has-new-message');
+        }
 
         function createNewConversation() {
             currentConversationId = Date.now().toString();
@@ -40,10 +38,10 @@ function toggleSidebar() {
             clearChatContainer();
             addInitialMessage(); 
             updateConversationList();
+            document.getElementById('conversationList').style.display = 'block';
             toggleSidebar();
         }
 
-        
         function updateConversationList() {
             const list = document.getElementById('conversationList');
             list.innerHTML = Array.from(chatHistory.entries()).map(([id, messages]) => `
@@ -56,7 +54,6 @@ function toggleSidebar() {
             `).join('');
         }
 
-        
         function loadConversation(conversationId) {
             currentConversationId = conversationId;
             const history = chatHistory.get(conversationId) || [];
@@ -77,7 +74,7 @@ function toggleSidebar() {
 
         let isGenerating = false;
 
-        async function sendMessage() {
+        async function sendMessage() { // Add async here
             if (isGenerating) return;
 
             const userInput = document.getElementById('userInput');
@@ -95,7 +92,7 @@ function toggleSidebar() {
             try {
                 const history = chatHistory.get(currentConversationId);
                 history.push({ role: 'user', content: message });
-                
+
                 while (history.length > MAX_HISTORY) {
                     history.shift();
                 }
@@ -109,6 +106,10 @@ function toggleSidebar() {
 
                 userInput.value = '';
 
+                
+                const menuToggle = document.querySelector('.menu-toggle');
+                menuToggle.classList.add('has-new-message');
+
                 const response = await generateAnswer(history);
                 const content = response.choices?.[0]?.message?.content || "I'm sorry, I couldn't process your request.";
                 const parsedContent = marked.parse(content);
@@ -118,7 +119,13 @@ function toggleSidebar() {
                 loadingMessage.remove();
                 const aiMessage = createMessage(parsedContent, 'ai');
                 document.getElementById('chatContainer').querySelector('.message-wrapper').appendChild(aiMessage);
-                addCopyButtons(aiMessage);
+                aiMessage.querySelectorAll('pre, code').forEach(element => {
+                    const button = document.createElement('button');
+                    button.className = 'copy-btn';
+                    button.innerHTML = '📋';
+                    button.onclick = () => copyToClipboard(element);
+                    element.parentNode.insertBefore(button, element.nextSibling);
+                });
                 scrollToBottom();
 
                 updateConversationList();
@@ -158,16 +165,6 @@ function toggleSidebar() {
                 </div>
             `;
             return loadingDiv;
-        }
-
-        function addCopyButtons(container) {
-            container.querySelectorAll('pre').forEach(pre => {
-                const button = document.createElement('button');
-                button.className = 'copy-btn';
-                button.innerHTML = 'Copy';
-                button.onclick = () => copyToClipboard(pre);
-                pre.parentNode.insertBefore(button, pre.nextSibling);
-            });
         }
 
         async function generateAnswer(history) {
