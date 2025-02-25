@@ -1,4 +1,4 @@
-  const chatHistory = new Map();
+const chatHistory = new Map();
         let currentConversationId = null;
         const MAX_HISTORY = 10;
 
@@ -8,6 +8,38 @@
                 return hljs.highlightAuto(code).value;
             }
         });
+
+        function saveChatHistory() {
+            const historyArray = Array.from(chatHistory.entries());
+            localStorage.setItem('chatHistory', JSON.stringify(historyArray));
+        }
+
+        function loadChatHistory() {
+            const savedHistory = localStorage.getItem('chatHistory');
+            if (savedHistory) {
+                const historyArray = JSON.parse(savedHistory);
+                historyArray.forEach(([id, messages]) => {
+                    chatHistory.set(id, messages);
+                });
+            }
+        }
+
+        function saveConversationList() {
+            const conversationList = Array.from(chatHistory.keys());
+            localStorage.setItem('conversationList', JSON.stringify(conversationList));
+        }
+
+        function loadConversationList() {
+            const savedConversationList = localStorage.getItem('conversationList');
+            if (savedConversationList) {
+                const conversationList = JSON.parse(savedConversationList);
+                conversationList.forEach(id => {
+                    if (!chatHistory.has(id)) {
+                        chatHistory.set(id, []); 
+                    }
+                });
+            }
+        }
 
         function addInitialMessage() {
             const initialMessage = `
@@ -29,7 +61,6 @@
             let sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('active');
 
-            // Remove blue dot when sidebar is opened
             const menuToggle = document.querySelector('.menu-toggle');
             menuToggle.classList.remove('has-new-message');
         }
@@ -38,10 +69,11 @@
             currentConversationId = Date.now().toString();
             chatHistory.set(currentConversationId, []);
             clearChatContainer();
-            addInitialMessage(); 
+            addInitialMessage();
             updateConversationList();
             document.getElementById('conversationList').style.display = 'block';
-            toggleSidebar();
+            saveChatHistory();
+            saveConversationList(); 
         }
 
         function updateConversationList() {
@@ -54,6 +86,7 @@
                     </small>
                 </div>
             `).join('');
+            saveConversationList();
         }
 
         function loadConversation(conversationId) {
@@ -108,7 +141,6 @@
 
                 userInput.value = '';
 
-
                 const menuToggle = document.querySelector('.menu-toggle');
                 menuToggle.classList.add('has-new-message');
 
@@ -131,6 +163,7 @@
                 scrollToBottom();
 
                 updateConversationList();
+                saveChatHistory();
 
             } catch (error) {
                 console.error(error);
@@ -215,5 +248,16 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            addInitialMessage();
+            loadChatHistory(); 
+            loadConversationList(); 
+            updateConversationList();
+
+            if (chatHistory.size > 0) {
+                const lastConversationId = Array.from(chatHistory.keys())[chatHistory.size - 1];
+                loadConversation(lastConversationId);
+                document.getElementById('sidebar').classList.add('active'); 
+                document.getElementById('conversationList').style.display = 'block'; 
+            } else {
+                addInitialMessage();
+            }
         });
