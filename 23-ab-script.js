@@ -30,12 +30,6 @@ function toggleSidebar() {
     let sidebar = document.getElementById('sidebar');
     sidebar.classList.toggle('active');
 }
-document.addEventListener('DOMContentLoaded', () => {
-    createNewConversation(); 
-});
-function createNewConversation() {
-    toggleSidebar();
-}
 
 
 
@@ -222,6 +216,5 @@ function createNewConversation() {
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            createNewConversation();
             addInitialMessage();
         });
