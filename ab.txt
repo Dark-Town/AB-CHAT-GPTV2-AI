@@ -71,6 +71,14 @@
     box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
+
+
+        .message.user .message-content {
+    text-align: right;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
         .message.ai {
             background: var(--secondary-bg);
             border-radius: 0.25rem 1rem 1rem 1rem;
