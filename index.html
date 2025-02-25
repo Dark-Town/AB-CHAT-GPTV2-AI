@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html oncontextmenu="return false"  ondragstart="return false" lang="en">
 <head>
     <link rel="icon" type="image/x-icon" href="https://i.ibb.co/VVdrZLm/502d5d69-6535-4092-be10-cb1b81514b46.jpg">
     <meta charset="UTF-8">
@@ -42,9 +41,42 @@
 
         }
 
+
+
+        .menu-toggle {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    background: var(--secondary-bg);
+    border: none;
+    color: var(--text-primary);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.menu-toggle .blue-dot {
+    width: 8px;
+    height: 8px;
+    background: #4cff00;
+    border-radius: 50%;
+    margin-left: 8px;
+    display: none;
+}
+
+.menu-toggle.has-new-message .blue-dot {
+    display: block;
+}
+
         .conversation-list {
             padding: 0.5rem;
+            display: none;
         }
+        
 
         .conversation-item {
             padding: 0.75rem;
@@ -314,13 +346,16 @@
     </style>
 </head>
 <body>
-    <button class="menu-toggle" onclick="toggleSidebar()">☰</button>
+    <button class="menu-toggle" onclick="toggleSidebar()">
+        ☰
+        <span class="blue-dot"></span>
+    </button>
     
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <button class="new-chat-btn" onclick="createNewConversation()">New Chat</button>
         </div>
-        <div class="conversation-list" id="conversationList">
+        <div class="conversation-list" id="conversationList" style="display: none;">
             
         </div>
     </div>
