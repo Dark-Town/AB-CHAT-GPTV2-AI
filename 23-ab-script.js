@@ -1,4 +1,4 @@
- const chatHistory = new Map();
+  const chatHistory = new Map();
         let currentConversationId = null;
         const MAX_HISTORY = 10;
 
@@ -8,15 +8,6 @@
                 return hljs.highlightAuto(code).value;
             }
         });
-
-        function escapeHtml(unsafe) {
-            return unsafe
-                .replace(/&/g, "&amp;")
-                .replace(/</g, "&lt;")
-                .replace(/>/g, "&gt;")
-                .replace(/"/g, "&quot;")
-                .replace(/'/g, "&#039;");
-        }
 
         function addInitialMessage() {
             const initialMessage = `
@@ -38,7 +29,7 @@
             let sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('active');
 
-           
+            // Remove blue dot when sidebar is opened
             const menuToggle = document.querySelector('.menu-toggle');
             menuToggle.classList.remove('has-new-message');
         }
@@ -47,16 +38,17 @@
             currentConversationId = Date.now().toString();
             chatHistory.set(currentConversationId, []);
             clearChatContainer();
-            addInitialMessage();
+            addInitialMessage(); 
             updateConversationList();
             document.getElementById('conversationList').style.display = 'block';
+            toggleSidebar();
         }
 
         function updateConversationList() {
             const list = document.getElementById('conversationList');
             list.innerHTML = Array.from(chatHistory.entries()).map(([id, messages]) => `
                 <div class="conversation-item" onclick="loadConversation('${id}')">
-                    ${messages.length ? escapeHtml(messages[0].content.substring(0, 30) + '...') : 'New Conversation'}
+                    ${messages.length ? messages[0].content.substring(0, 30) + '...' : 'New Conversation'}
                     <small style="color: var(--text-secondary)">
                         ${new Date(parseInt(id)).toLocaleDateString()}
                     </small>
@@ -116,13 +108,13 @@
 
                 userInput.value = '';
 
-         
+
                 const menuToggle = document.querySelector('.menu-toggle');
                 menuToggle.classList.add('has-new-message');
 
                 const response = await generateAnswer(history);
                 const content = response.choices?.[0]?.message?.content || "I'm sorry, I couldn't process your request.";
-                const parsedContent = marked.parse(escapeHtml(content));
+                const parsedContent = marked.parse(content);
 
                 history.push({ role: 'assistant', content: content });
 
@@ -157,7 +149,7 @@
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
             messageDiv.innerHTML = `
-                <div class="message-content">${escapeHtml(content)}</div>
+                <div class="message-content">${content}</div>
             `;
             return messageDiv;
         }
