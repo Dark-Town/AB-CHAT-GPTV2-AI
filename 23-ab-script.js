@@ -292,8 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
     updateConversationList();
 
     if (chatHistory.size > 0) {
-        const lastConversationId = Array.from(chatHistory.keys())[chatHistory.size - 1];
-        addInitialMessage();
+      const lastConversationId = Array.from(chatHistory.keys())[chatHistory.size - 1];
+        currentConversationId = lastConversationId; 
+        loadConversation(lastConversationId); 
     } else {
         addInitialMessage();
     }
