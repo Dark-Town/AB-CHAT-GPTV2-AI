@@ -16,24 +16,18 @@
     <title>AB AI Assistant</title>
 </head>
 <body>
-    <button class="menu-toggle" onclick="toggleSidebar()">
-        ☰
-        <span class="blue-dot"></span>
-    </button>
+      <button class="menu-toggle" onclick="toggleSidebar()">☰<span class="blue-dot"></span></button>
     
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <button class="new-chat-btn" onclick="createNewConversation()">New Chat</button>
+            <button class="logout-btn" onclick="logout()">Logout</button>
         </div>
-        <div class="conversation-list" id="conversationList" style="display: none;">
-            
-        </div>
+        <div class="conversation-list" id="conversationList"></div>
     </div>
 
     <div class="chat-container" id="chatContainer">
-        <div class="message-wrapper">
-            
-        </div>
+        <div class="message-wrapper"></div>
     </div>
 
     <div class="input-container">
