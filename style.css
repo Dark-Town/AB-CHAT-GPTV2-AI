@@ -1,4 +1,4 @@
-        .sidebar {
+ .sidebar {
             width: 260px;
             height: 100vh;
             position: fixed;
@@ -59,8 +59,60 @@
 
         .conversation-list {
             padding: 0.5rem;
-            display: none;
+            
         }
+
+
+
+        .conversation-item {
+    position: relative;
+    padding-right: 2rem;
+}
+
+.delete-btn {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    padding: 0.25rem;
+}
+
+.conversation-item:hover .delete-btn {
+    opacity: 1;
+}
+
+.delete-btn:hover {
+    color: #ef4444;
+}
+
+
+
+
+.logout-btn {
+    width: 100%;
+    padding: 0.75rem;
+    background: #ef4444; 
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+}
+
+.logout-btn:hover {
+    background: #dc2626;
+}
+
+
+
+
         
 
         .conversation-item {
