@@ -1,4 +1,5 @@
- .sidebar {
+
+.sidebar {
             width: 260px;
             height: 100vh;
             position: fixed;
@@ -97,7 +98,7 @@
 .logout-btn {
     width: 100%;
     padding: 0.75rem;
-    background: #ef4444; 
+    background: #ef4444;
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -109,6 +110,9 @@
 .logout-btn:hover {
     background: #dc2626;
 }
+
+
+
 
 
 .ai-button {
@@ -272,6 +276,7 @@ modal-buttons {
     color: var(--text-primary);
     border: 1px solid var(--border-color);
 }
+
 
 
 
@@ -542,3 +547,7 @@ modal-buttons {
                 right: 0.75rem;
             }
         }
+
+        #userInput {
+    padding-left: 3.5rem !important;
+}
