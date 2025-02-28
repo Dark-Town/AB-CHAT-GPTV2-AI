@@ -1,3 +1,86 @@
+const proxyUrl = "https://broken-star-6439.abrahamdw882.workers.dev/?u=";
+let currentImageBlob = null;
+
+function openImageGenerator() {
+    document.getElementById("confirmationModal").style.display = "flex";
+}
+
+function proceedToGenerate() {
+    closeConfirmation();
+    document.getElementById("imageModal").style.display = "flex";
+    document.getElementById("promptInput").focus();
+}
+
+function closeConfirmation() {
+    document.getElementById("confirmationModal").style.display = "none";
+}
+
+
+async function generateImage() {
+    const prompt = document.getElementById("promptInput").value;
+    const generateButton = document.getElementById("generateButton");
+    const loader = document.getElementById("loader");
+    const generatedImage = document.getElementById("generatedImage");
+    const downloadButton = document.getElementById("downloadButton");
+    const error = document.getElementById("error");
+
+    generatedImage.style.display = "none";
+    downloadButton.style.display = "none";
+    error.style.display = "none";
+    error.innerText = "";
+    currentImageBlob = null;
+
+    if (!prompt) {
+        error.style.display = "block";
+        error.innerText = "Please enter a prompt.";
+        return;
+    }
+
+    generateButton.disabled = true;
+    loader.style.display = "block";
+
+    try {
+        const apiUrl = `https://bk9.fun/ai/magicstudio?prompt=${encodeURIComponent(prompt)}`;
+        const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
+
+        if (!response.ok) throw new Error(`API request failed (${response.status})`);
+        
+        currentImageBlob = await response.blob();
+        const imageUrl = URL.createObjectURL(currentImageBlob);
+        
+        generatedImage.src = imageUrl;
+        generatedImage.style.display = "block";
+        downloadButton.style.display = "block";
+    } catch (err) {
+        error.style.display = "block";
+        error.innerText = "Failed to generate image. Please try again.";
+    } finally {
+        generateButton.disabled = false;
+        loader.style.display = "none";
+    }
+}
+
+function downloadImage() {
+    if (!currentImageBlob) return;
+    const link = document.createElement("a");
+    link.download = "generated-image.png";
+    link.href = URL.createObjectURL(currentImageBlob);
+    link.click();
+}
+
+function closeModal() {
+    document.getElementById("imageModal").style.display = "none";
+    currentImageBlob = null;
+}
+document.getElementById("promptInput").addEventListener("keypress", (e) => {
+    if (e.key === "Enter") generateImage();
+});
+
+
+
+
+
+
 const chatHistory = new Map();
 let currentConversationId = null;
 const MAX_HISTORY = 10;
