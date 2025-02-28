@@ -40,7 +40,7 @@ async function generateImage() {
     loader.style.display = "block";
 
     try {
-        const apiUrl = `https://bk9.fun/ai/magicstudio?prompt=${encodeURIComponent(prompt)}`;
+        const apiUrl = `https://dark-shan-yt.koyeb.app/ai/generate-image?q=${encodeURIComponent(prompt)}`;
         const response = await fetch(proxyUrl + encodeURIComponent(apiUrl));
 
         if (!response.ok) throw new Error(`API request failed (${response.status})`);
