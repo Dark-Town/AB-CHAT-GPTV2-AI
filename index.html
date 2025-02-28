@@ -33,10 +33,43 @@
 
     <div class="input-container">
         <div class="input-wrapper">
+              <button class="ai-button" onclick="openImageGenerator()">
+    <i class="fas fa-star"></i> 
+</button>
             <input type="text" id="userInput" placeholder="Ask me anything..." />
             <button class="send" onclick="sendMessage()">→</button>
         </div>
     </div>
+
+    
+    <div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeConfirmation()">&times;</span>
+        <h3>Generate AI Image?</h3>
+        <p>This will open the AI image generator. Continue?</p>
+        <div class="modal-buttons">
+            <button onclick="proceedToGenerate()">Yes</button>
+            <button onclick="closeConfirmation()">No</button>
+        </div>
+    </div>
+</div>
+
+    <div id="imageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Generate Image</h3>
+        <div class="input-group">
+            <input type="text" id="promptInput" placeholder="Describe the image you want to generate...">
+            <button onclick="generateImage()" id="generateButton">Generate</button>
+        </div>
+        <div id="loader" class="loader" style="display: none;"></div>
+        <div id="imageContainer">
+            <img id="generatedImage" style="display: none;">
+            <button id="downloadButton" style="display: none;" onclick="downloadImage()">Download</button>
+        </div>
+        <div id="error" class="error-message"></div>
+    </div>
+</div>
 
     <script src="23-ab-script.js">
       
