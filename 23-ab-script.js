@@ -132,7 +132,7 @@ function addInitialMessage() {
         <div class="message ai">
             <div class="message-content">
                 <br> <br>
-                Hello! I'm TX AI Assistant. How can I help you today? 😊
+                Hello! I'm WOFTECH STORE AI Assistant. How can I help you today? 😊
                 <br><br>
                 <small style="color: var(--text-secondary)">
                     I can help with programming, research, and general knowledge.
